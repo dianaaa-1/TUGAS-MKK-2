@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal 7</title>
+</head>
+<body>
+    <script>
+        // Soal 7. Validasi nama harus string, harga harus number
+        class Product {
+            #name;
+            #price;
+            constructor(idProduk, name, price) {
+                this.idProduk = idProduk;
+                this.#name = name;
+                this.#price = price;
+            }
+
+            get getName() {
+                return this.#name;
+            }
+
+            set setName(value) {
+                if (typeof value !== 'string' || value.trim() === '') {
+                    console.log("Nama barang harus berupa string yang tidak boleh kosong");
+                } else {
+                    this.#name = value;
+                }
+            }
+
+            get getPrice() {
+                return this.#price;
+            }
+
+            set setPrice(value) {
+                if (typeof value !== 'number' || isNaN(value)) {
+                    console.log("Harga barang harus berupa angka/number");
+                } else {
+                    this.#price = value;
+                }
+            }
+
+            hitungTotalHarga(kuantitas) {
+                return this.#price * kuantitas;
+            }
+        }
+
+        class ElectronicProduct extends Product {
+            constructor(idProduk, name, price, masaGaransi) {
+                super(idProduk, name, price);
+                this.masaGaransi = masaGaransi;
+            }
+
+            hitungTotalHarga(kuantitas) {
+                const totalHarga = super.hitungTotalHarga(kuantitas);
+                return `Total harga: Rp${totalHarga.toLocaleString()} dengan masa garansi ${this.masaGaransi} tahun`;
+            }
+        }
+
+        // Contoh memenuhi syarat
+        const produk = new ElectronicProduct('A123', 'Laptop Macbook Air M1', 15000000, 5);
+
+        console.log(`Nama Idproduk: ${produk.idProduk}`);
+        console.log(`Nama Barang: ${produk.getName}`);
+        console.log(`Harga Barang: Rp${produk.getPrice}`);
+        console.log(`Masa Garansi: ${produk.masaGaransi} Tahun`);
+        console.log(produk.hitungTotalHarga(2));
+
+        // Contoh tidak memenuhi syarat
+        produk.idProduk = 'B123';
+        console.log(`Nama Idproduk: ${produk.idProduk}`);
+        produk.setName = 123; // (Nama bukan string)
+        produk.setPrice = 'Delapan Juta Rupiah'; // (Harga bukan number)
+        produk.masaGaransi = 3;
+        console.log(`Masa Garansi: ${produk.masaGaransi} Tahun`);
+        console.log(produk.hitungTotalHarga(2));
+
+        // Contoh privat & protect
+        produk.name = 'Smartphone Samsung S24 FE';
+        console.info(produk);
+        console.log(produk.name);
+        console.log(produk.getName);
+
+        produk.price = 1000000;
+        console.info(produk);
+        console.log(produk.price);
+        console.log(produk.getPrice);
+    </script>
+</body>
+</html>

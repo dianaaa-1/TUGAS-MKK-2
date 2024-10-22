@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal 4</title>
+</head>
+<body>
+    <script>
+        // Soal 4. Validasi nama kantor cabang tidak boleh sama (Menggunakan set)
+        class Bank {
+            #kantorCabang;
+            constructor(namaBank) {
+                this.namaBank = namaBank;
+                this.#kantorCabang = new Set();
+            }
+
+            tambahNamaBank() {
+                console.log(`Nama Bank: ${this.namaBank}`);
+            }
+
+            get getKantorCabang() {
+                return this.#kantorCabang;
+            }
+
+            set setKantorCabang(value) {
+                this.#kantorCabang = value;
+            }
+
+            get getTambahKantorCabang() {
+                return this.#kantorCabang;
+            }
+
+            set setTambahKantorCabang(namaCabang) {
+                if (this.#kantorCabang.has(namaCabang)) {
+                    console.log(`Cabang ${namaCabang} sudah ada. Setiap bank yang mempunyai cabang hanya dapat memiliki 1 cabang pada setiap daerah`);
+                } else {
+                    this.#kantorCabang.add(namaCabang);
+                    console.log(`Cabang ${namaCabang} telah ditambahkan`);
+                }   
+            }
+
+            get getHapusKantorCabang() {
+                return this.#kantorCabang;
+            }
+
+            set setHapusKantorCabang(namaCabang) {
+                if (this.#kantorCabang.has(namaCabang)) {
+                    this.#kantorCabang.delete(namaCabang);
+                    console.log(`Cabang ${namaCabang} telah dihapus`);
+                } else {
+                    console.log(`Cabang ${namaCabang} tidak ditemukan`);
+                }
+            }
+
+            tampilkanSemuaKantorCabang() {
+                if (this.#kantorCabang.size > 0) {
+                    console.log(`Kantor Cabang ${this.namaBank}:`);
+                    let index = 1;
+                    this.#kantorCabang.forEach((cabang) => {
+                        console.log(`${index}. ${cabang}`);
+                        index++;
+                    });
+                } else {
+                    console.log(`Tidak ada kantor cabang untuk ${this.namaBank}`);
+                }
+            }
+        }
+
+        // Contoh yang memenuhi syarat
+        const bank1 = new Bank("Bank SYARIAH");
+        console.log(bank1.namaBank);
+        bank1.setTambahKantorCabang = "Makassar";
+        bank1.setTambahKantorCabang = "Bali";
+        bank1.setTambahKantorCabang = "Lampung";
+        bank1.setTambahKantorCabang = "Minangkabau";
+        bank1.setTambahKantorCabang = "Ciamis";
+        bank1.tampilkanSemuaKantorCabang();
+        bank1.setHapusKantorCabang = "Bali";
+        bank1.tampilkanSemuaKantorCabang();
+
+        // Contoh yang tidak memenuhi syarat
+        const bank2 = new Bank("Bank BCA");
+        console.log(bank2.namaBank);
+        bank2.setTambahKantorCabang = "Surakarta";
+        bank2.setTambahKantorCabang = "Cirebon";
+        bank2.setTambahKantorCabang = "Bandung";
+        bank2.setTambahKantorCabang = "Kuningan";
+        bank2.setTambahKantorCabang = "Majalengka";
+        bank2.setTambahKantorCabang = "Pontianak";
+        bank2.setTambahKantorCabang = "Cirebon"; // (Nama kantor cabang sama)
+        bank2.tampilkanSemuaKantorCabang();
+        bank2.setHapusKantorCabang = "Bandung";
+        bank2.setHapusKantorCabang = "Pontianak";
+        bank2.setHapusKantorCabang = "Kalimantan"; // (Nama kantor cabang yang tidak ada/tidak terdaftar pada cabang bank tersebut)
+        bank2.tampilkanSemuaKantorCabang();
+
+        // Contoh privat & protect
+        bank1.kantorCabang = 'Pati';
+        console.info(bank1);
+        console.log(bank1.kantorCabang);
+        console.log(bank1.getKantorCabang);
+    </script>
+</body>
+</html>

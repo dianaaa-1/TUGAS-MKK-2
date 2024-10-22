@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal 8</title>
+</head>
+<body>
+    <script>
+        // Soal 8. Validasi noRekening dan namaNasabah tidak boleh sama (Menggunakan set)
+        const usedRekeningNumbers = new Set();
+        const usedCustomerNames = new Set();
+
+        class BankAccount {
+            #saldo;
+            constructor(nomorRekening, namaNasabah, saldo = 0) {
+                this.nomorRekening = nomorRekening;
+                this.namaNasabah = namaNasabah;
+                this.#saldo = saldo;
+            }
+
+            get getSaldo() {
+                return this.#saldo;
+            }
+
+            set setSaldo(value) {
+                this.#saldo = value;
+            }
+
+            get getNoRek() {
+                return this._nomorRekening;
+            }
+
+            set setNoRek(value) {
+                if (usedRekeningNumbers.has(value)) {
+                console.log(`No Rekening ${value} sudah digunakan`);
+                } else {
+                    this._nomorRekening = value;
+                    usedRekeningNumbers.add(value);
+                }
+            }
+
+            get getNamaNsbh() {
+                return this._namaNasabah;
+            }
+
+            set setNamaNsbh(value) {
+                if (usedCustomerNames.has(value)) {
+                console.log(`Nama Nasabah '${value}' sudah digunakan`);
+                } else {
+                this._namaNasabah = value;
+                usedCustomerNames.add(value);
+                }
+            }
+
+            setorUang(jumlah) {
+                if (jumlah > 0) {
+                this.#saldo += jumlah;
+                console.log(`Setoran sebesar: Rp ${jumlah.toLocaleString()} berhasil pada (No.Rekening ${this.nomorRekening}, atas nama nasabah ${this.namaNasabah})`);
+                } else {
+                console.log("Jumlah setoran harus lebih dari 0");
+                }
+            }
+
+            tarikUang(jumlah) {
+                if (this.#saldo === 0) {
+                console.log(`Saldo saat ini: Rp 0. Tidak dapat menarik uang pada (No.Rekening ${this.nomorRekening}, atas nama nasabah ${this.namaNasabah})`);
+                } else if (jumlah > 0 && jumlah <= this.#saldo) {
+                this.#saldo -= jumlah;
+                console.log(`Penarikan sebesar Rp ${jumlah.toLocaleString()} berhasil pada (No.Rekening ${this.nomorRekening}, atas nama nasabah ${this.namaNasabah})`);
+                } else {
+                console.log("Jumlah penarikan tidak valid atau melebihi saldo");
+                }
+            }
+
+            transferUang(jumlah, rekeningTujuan) {
+                if (this.#saldo === 0) {
+                console.log(`Saldo saat ini: Rp 0. Tidak dapat mentransfer uang pada (No.Rekening ${this.nomorRekening}, atas nama nasabah ${this.namaNasabah})`);
+                } else if (jumlah > 0 && jumlah <= this.#saldo) {
+                this.#saldo -= jumlah;
+                rekeningTujuan.saldo += jumlah;
+                console.log(`Transfer sebesar: Rp ${jumlah.toLocaleString()} ke (No.Rekening ${rekeningTujuan.nomorRekening}, atas nama nasabah ${rekeningTujuan.namaNasabah}) berhasil pada (No.Rekening ${this.nomorRekening}, atas nama nasabah ${this.namaNasabah})`);
+                this.lihatSaldo();
+                rekeningTujuan.lihatSaldo();
+                } else {
+                console.log("Jumlah transfer tidak valid atau melebihi saldo");
+                }
+            }
+
+            lihatSaldo() {
+                console.log(`Saldo saat ini: (No.Rekening ${this.nomorRekening}, Nasabah ${this.namaNasabah}) Sebesar Rp ${this.#saldo.toLocaleString()}`);
+            }
+        }
+
+        // Contoh yang memenuhi syarat
+        const akun1 = new BankAccount("001", "Diana", 900000);
+        const akun2 = new BankAccount("002", "Kayla", 200000);
+        const akun3 = new BankAccount("003", "Nayla", 0);
+
+        akun1.setNoRek = '001';
+        console.log(`No Rekening: ${akun1.getNoRek}`);
+        akun1.setNamaNsbh = 'Diana';
+        console.log(`No Rekening: ${akun1.getNamaNsbh}`);
+
+        akun2.setNoRek = '002';
+        console.log(`No Rekening: ${akun2.getNoRek}`);
+        akun2.setNamaNsbh = 'Kayla';
+        console.log(`No Rekening: ${akun2.getNamaNsbh}`);
+
+        akun3.setNoRek = '003';
+        console.log(`No Rekening: ${akun3.getNoRek}`);
+        akun3.setNamaNsbh = 'Nayla';
+        console.log(`No Rekening: ${akun3.getNamaNsbh}`);
+
+        akun1.lihatSaldo();
+        akun1.setorUang(200000);
+        akun1.lihatSaldo();
+        akun1.tarikUang(100000);
+        akun1.lihatSaldo();
+        akun1.transferUang(100000, akun2);
+        akun3.lihatSaldo();
+        akun3.tarikUang(10000);
+        akun3.transferUang(10000, akun1);
+
+        // Contoh yang tidak memenuhi syarat
+        akun1.setNoRek = '001'; // (No Rekening sama)
+        akun2.setNamaNsbh = 'Nayla'; // (Nama Nasabah sama)
+
+        // Contoh privat & protect
+        akun1.saldo = 20000000;
+        console.info(akun1);
+        console.log(akun1.saldo);
+        console.log(akun1.getSaldo);
+    </script>
+</body>
+</html>

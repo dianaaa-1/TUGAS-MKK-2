@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal 1</title>
+</head>
+<body>
+    <script>
+        // Soal 1. Validasi firstName dan lastName tidak boleh kosong, age lebih dari nol
+        class person {
+            #age;
+            constructor(firstName, lastName, age) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this.#age = age;
+            }
+
+            get first() {
+                return this.firstName;
+            }
+
+            set first(value) {
+                if (value.length == 0) {
+                    console.log('Nama depan tidak boleh kosong');
+                } else {
+                    this.firstName = value;
+                }
+            }
+
+            get last() {
+                return this.lastName;
+            }
+
+            set last(value) {
+                if (value.length == 0) {
+                    console.log("Nama belakang tidak boleh kosong");
+                } else {
+                    this.lastName = value;
+                }
+            }
+
+            get getAge() {
+                return this.#age;
+            }
+
+            set setAge(value) {
+                if (value < 0) {
+                    console.log("Umur tidak boleh kurang dari 0");
+                } else {
+                    this.#age = value;
+                }
+            }
+
+            showDetails() {
+                console.log(`Hello my name is ${this.firstName}`);
+            }
+        }
+
+        // Contoh yang memenuhi syarat
+        const objek = new person("Diana", "Pungki", "17");
+        objek.showDetails();
+        console.log(`Nama depan: ${objek.first}`);
+        console.log(`Nama belakang: ${objek.last}`);
+        console.log(`Umur: ${objek.getAge}`);
+
+        // Contoh yang tidak memenuhi syarat
+        objek.first = ''; // (FirstName kosong)
+        objek.last = ''; // (LastName kosong)
+        objek.setAge = -1; // (Umur kurang dari 0 tahun)
+
+        // Contoh privat & protect
+        objek.age = 25;
+        console.info(objek);
+        console.log(objek.age);
+        console.log(objek.getAge);
+    </script>
+</body>
+</html>
